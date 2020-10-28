@@ -33,7 +33,7 @@ try
    } 
  };
  static newUser = async(req: Request ,res: Response)=>{
-     const {   FIRSTNAME, LASTNAME, EMAIL , PASSWORD , PHONE , ADRESS,ID,ROLE,CREATED} = req.body
+     const {   FIRSTNAME, LASTNAME, EMAIL , PASSWORD , PHONE , ADRESS,ID,ROLE,CREATED} = req.body;
      const user= new user_table();
      user.FIRSTNAME= FIRSTNAME;
      user.LASTNAME= LASTNAME;
@@ -44,22 +44,19 @@ try
      user.ID = ID;
      user.ROLE = ROLE;
      user.CREATED= CREATED;
-     
-     
      //validate
      const errors = await validate(user);
-if(errors.length>0){
-    return res.status(400).json(errors)
+if(errors.length > 0 )  {
+    return res.status(400).json(errors);
 }
 
 //hash passsword
-const userRepository = getRepository(user_table)
+const userRepository = getRepository(user_table);
 try{
     await userRepository.save(user);
-}
-catch(e){
-    return res.status(409).json({ messages: "username xist" })
-   }
+} catch(e){
+    return res.status(409).json({ messages: "username xist" });
+           }
 
    //all ok
    res.send('user created');
@@ -68,18 +65,22 @@ catch(e){
  static editUser = async (req: Request, res: Response)=>{
 let user ;
 const{ID}= req.params;
-const {FIRSTNAME, ROLE}= req.body;
+const {FIRSTNAME, ROLE ,LASTNAME ,EMAIL,PASSWORD ,ADRESS}= req.body;
 const userRepository =getRepository(user_table);
 
 //try get user
 try{
     user= await userRepository.findOneOrFail(ID);
-
-user.FIRSTNAME= FIRSTNAME;
-user.ROLE= ROLE;
+    user.LASTTNAME= LASTNAME;
+    user.EMAIL= EMAIL;
+    user.PASSWORD= PASSWORD;
+    user.FIRSTNAME= FIRSTNAME;
+    user.FADRESS= ADRESS;
+    user.FIRSTNAME= FIRSTNAME;
+    user.ROLE= ROLE;
 }
 catch(e){
-    return res.status(404).json({message: 'User not found'});
+    return res.status(404).json({message: `User ${ID} not found`});
 }
 
 
@@ -92,7 +93,7 @@ try{
  await userRepository.save(user);
 }
 catch(e){
-    return res.status(401).json({message : 'user alaready  in use'});
+    return res.status(409).json({message : 'user alaready  in use'});
 }
 res.status(201).json({message : 'user updated'});
  };
@@ -112,7 +113,7 @@ res.status(201).json({message : 'user updated'});
      //remove user 
 
      userRepository.delete(ID);
-     res.status(201).json({message:' user deleted'});
+     res.status(201).json({message:` user ${ID} deleted`});
  };
 }
  export default UserController;
