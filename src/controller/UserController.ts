@@ -37,7 +37,7 @@ try
  static editUser = async (req: Request, res: Response)=>{
 let user ;
 const{ID}= req.params;
-const {FIRSTNAME, ROLE ,LASTNAME ,EMAIL,PASSWORD ,ADRESS,UPDATEDAT}= req.body;
+const {FIRSTNAME, ROLE ,LASTNAME ,EMAIL,PASSWORD ,ADRESS,UPDATED_AT}= req.body;
 const userRepository =getRepository(user_table);
 
 //try get user
@@ -50,7 +50,7 @@ try{
     user.FADRESS= ADRESS;
     user.FIRSTNAME= FIRSTNAME;
     user.ROLE= ROLE;
-    user.UPDATEDAT= UPDATEDAT;
+    user.UPDATED_AT= UPDATED_AT;
 }
 catch(e){
     return res.status(404).json({message: `User ${ID} not found`});

@@ -12,11 +12,13 @@ export class user_table{
     @PrimaryGeneratedColumn()
      ID: number;
      
+
     @Column({length: 20,
         nullable: true})
     FIRSTNAME: string;
 
     
+
     @Column({length: 20,
         nullable: true })
    
@@ -33,6 +35,7 @@ export class user_table{
     EMAIL: string;
 
 
+
 @MinLength(8)
 @MaxLength(12)
     @IsNotEmpty()
@@ -41,6 +44,7 @@ export class user_table{
     PASSWORD: string;
  
 
+
    
     @Column({length: 70,
         nullable: true})
@@ -48,17 +52,19 @@ export class user_table{
     nullable: true
 
   
+
     @Column({length: 15,
         nullable: true
     })
     PHONE: string;
 
+
     
     @Column( {nullable: false, 
         length: 5,
-        default: "user"
-   })
+        default: "user"})
     ROLE:string;
+
 
     
     @Column( { type:"timestamp",
@@ -68,9 +74,10 @@ export class user_table{
     })
     CREATED:Timestamp;
    
+
     @Column({nullable: true})
   @UpdateDateColumn()
-  UPDATEDAT: Date;
+  UPDATED_AT: Date;
 
  
 

@@ -4,7 +4,6 @@ import { user_table } from "../entity/user_table/user_table";
 
 
 
-
 export const checkRole = (ROLE: Array<string>) => {
   return async (req: Request, res: Response, next: NextFunction) => {
    
@@ -23,3 +22,6 @@ export const checkRole = (ROLE: Array<string>) => {
     else res.status(401).json({message: `User ${ID} not have privilegies `});
   };
 };
+
+
+export default checkRole
