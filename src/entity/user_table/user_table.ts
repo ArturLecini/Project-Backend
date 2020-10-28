@@ -1,60 +1,98 @@
 
 export type WithPrecisionColumnType = "float"
-import {Entity, Column, PrimaryGeneratedColumn, PrimaryColumn} from "typeorm";
+import {Entity, Column, PrimaryGeneratedColumn, PrimaryColumn , UpdateDateColumn} from "typeorm";
 import { Timestamp } from "typeorm";
-export enum UserRole {
-    ADMIN = "admin",
-    USER = "user",
-    
-}
+import{ IsEmpty, IsNotEmpty, MaxLength, MinLength }  from 'class-validator'
+import * as bcrypt from "bcryptjs";
+
 
 @Entity()
 
 export class user_table{
     @PrimaryGeneratedColumn()
      ID: number;
-
+     
     @Column({length: 20,
         nullable: true})
     FIRSTNAME: string;
 
+    
     @Column({length: 20,
         nullable: true })
-    LASTNAME: string;
+   
+        LASTNAME: string;
 
-    @Column({length: 50,
+
+
+  @MinLength(6)
+@MaxLength(30)
+    @IsNotEmpty()
+    @Column({length: 30,
         nullable: false,
         unique: true })
     EMAIL: string;
 
+
+@MinLength(8)
+@MaxLength(12)
+    @IsNotEmpty()
     @Column({length: 12 ,
         nullable: false})
     PASSWORD: string;
+ 
 
-    @Column({length: 50,
+   
+    @Column({length: 70,
         nullable: true})
     ADRESS: string
     nullable: true
 
+  
     @Column({length: 15,
         nullable: true
     })
     PHONE: string;
 
-    @Column( {nullable: false
-    ,  type: "enum",
-    enum: UserRole,
-    default: UserRole.USER})
-   
-    ROLE:UserRole;
+    
+    @Column( {nullable: false, 
+        length: 5,
+        default: "user"
+   })
+    ROLE:string;
+
+    
     @Column( { type:"timestamp",
     precision: 1,
     nullable: false,
     default: () => "CURRENT_TIMESTAMP(1)",
     })
     CREATED:Timestamp;
-     
+   
+    @Column({nullable: true})
+  @UpdateDateColumn()
+  UPDATEDAT: Date;
+
+ 
+
+/*
+  hashPassword() { this.PASSWORD = bcrypt.hashSync(this.PASSWORD, 8);
 }
+  checkPassword(unencryptedPassword: string) {
+    return bcrypt.compareSync(unencryptedPassword, this.PASSWORD);
+  }
+
+
+*/
+
+
+
+
+}
+
+
+
+
+
 @Entity()
 export class user_button{
     @PrimaryColumn()

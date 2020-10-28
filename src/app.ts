@@ -5,6 +5,8 @@ import * as express from "express";
 import * as cors from "cors";
 import * as helmet from"helmet";
 import router from './routes/';
+import UserController from "./controller/UserController";
+import { Validate } from "class-validator";
 
 const PORT = process.env.PORT || 3000;
 
@@ -21,7 +23,7 @@ createConnection()
 
      //routes
      app.use('/',router);
-
+     app.use('/auth/login',router);
     //start exxpres server
     app.listen(PORT,() => console.log(`server online runing at ${PORT}`));
 })
