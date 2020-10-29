@@ -5,8 +5,6 @@ import * as express from "express";
 import * as cors from "cors";
 import * as helmet from"helmet";
 import router from './routes/';
-import UserController from "./controller/UserController";
-import { Validate } from "class-validator";
 
 const PORT = process.env.PORT || 3000;
 
@@ -20,7 +18,7 @@ createConnection()
     app.use(cors());
     app.use(helmet());
     app.use(express.json());
-
+   
      //routes
      app.use('/',router);
      app.use('/auth/login',router);

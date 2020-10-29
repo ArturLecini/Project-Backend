@@ -12,9 +12,10 @@ export class UserController {
         const user = await userRepository.find();
 
         if(user.length > 0){
-            res.send(user);
-        }else {
-            res.status(404).json({message: 'No users in database '});
+         return   res.status(226).send(user);
+        }
+        else {
+            return res.status(404).json({ status : "not found",code: "204", message: ` Not found Users  in database`});
         }
     };
    
@@ -24,20 +25,20 @@ export class UserController {
     const userRepository =getRepository(user_table);
 
 try
-{
-    const user = await  userRepository.findOneOrFail(ID);
-    res.send(user);
+       {
+   const user = await  userRepository.findOneOrFail(ID);
+    res.status(226).send(user);
    } 
    catch(e) 
-{
-    res.status(404).json({message: 'This ID not found'});
+        {
+    return res.status(404).json({ status : "not found",code: "404", message: `User with id ${ID} not found`});
    } 
  };
  
  static editUser = async (req: Request, res: Response)=>{
 let user ;
 const{ID}= req.params;
-const {FIRSTNAME, ROLE ,LASTNAME ,EMAIL,PASSWORD ,ADRESS,UPDATED_AT}= req.body;
+const {FIRSTNAME, ROLE ,LASTNAME ,EMAIL,PASSWORD ,PHONE,ADRESS,UPDATED_AT}= req.body;
 const userRepository =getRepository(user_table);
 
 //try get user
@@ -47,43 +48,62 @@ try{
     user.EMAIL= EMAIL;
     user.PASSWORD= PASSWORD;
     user.FIRSTNAME= FIRSTNAME;
-    user.FADRESS= ADRESS;
+    user.ADRESS= ADRESS;
     user.FIRSTNAME= FIRSTNAME;
     user.ROLE= ROLE;
-    user.UPDATED_AT= UPDATED_AT;
+    user.PHONE= PHONE;
 }
 catch(e){
-    return res.status(404).json({message: `User ${ID} not found`});
-
+    return res.status(404).json({ status : "not found",code: "404", message: `User ${ID} not found`});
 }
-
-const errors = await validate(user);
-if(errors.length > 0){
-    return res.status(400).json({message:"EMAIL AND PASSWORD ARE REQUIRED AND NOT EMPTY"});
-}
+if(user.EMAIL== "" && user.PASSWORD== "" ){
+    return res.status(400).json({status : "bad request",code: "400",  message:"EMAIL  AND PASSWORD REQUIRED AND NOT EMPTY"});
+      }
+else if(user.EMAIL== ""){
+    return res.status(400).json({status : "bad request",code: "400",  message:"EMAIL REQUIRED AND NOT EMPTY"});
+      }
+      else if(user.PASSWORD== ""){
+    return res.status(400).json({status : "bad request",code: "400",  message:"PASSWORD REQUIRED AND NOT EMPTY"});
+    }
+    const errors = await validate(user);
+    if(errors.length > 0 )  {
+        res.status(400).json(errors);
+        return;
+    }
 //try to save user
 try{
  await userRepository.save(user);
 }
 catch(e){
-    return res.status(409).json({message : 'user alaready  in use'});
+    res.status(409).json({status : "conflict",code: "409",message : `user ${EMAIL} alaready  in use`});
 }
-res.status(201).json({message : 'user updated'});
+res.status(201).json({ status : "true",code: "201", message : `user with id ${ID} updated`});
  };
 
  static deleteUser = async (req: Request, res: Response)=>{
-     const {ID} = req.params;
+     let user;
+    const {ID} = req.params;
+     const {ROLE} = req.body;
      const userRepository = getRepository(user_table);
-     let user: user_table;
-     try{
-         user = await userRepository.findOneOrFail(ID);
+    
+      try{
+         user = await userRepository.findOneOrFail(ID); 
+         user.ROLE= ROLE;
      }
      catch(e){
-         return res.status(404).json({message: 'user not found'});
+         return res.status(404).json({ status : "not found", code: "404", message: `User with id ${ID} not found`});
      }
+     if (user.ID == 1){
+        return res.status(400).json({status : "bad request",code: "400",  message:`User with id ${ID} is CEO ADMIN `});
+    }
+   try{
+       await userRepository.delete(ID);
+       }
+       catch(e){
+           return res.status(409).json({message : 'user alaready  in use'});
+       }
      //remove user 
-     userRepository.delete(ID);
-     res.status(201).json({message:` user ${ID} deleted`});
+        res.status(200).json({  status : "deleted",code: "200",message:` user ${ID} deleted`});
  };
 
  static newUser = async(req: Request ,res: Response)=>{
@@ -99,24 +119,44 @@ res.status(201).json({message : 'user updated'});
     user.ROLE = ROLE;
     user.CREATED= CREATED;
     //validate
-    const errors = await validate(user);
-if(errors.length > 0 )  {
-    res.status(400).json(errors);
-    return;
-}
+    
+    if(user.EMAIL== "" && user.PASSWORD== "" ){
+        return res.status(400).json({status : "bad request",code: "400",  message:"EMAIL  AND PASSWORD REQUIRED AND NOT EMPTY"});
+          }
+    else if(user.EMAIL== ""){
+        return res.status(400).json({status : "bad request",code: "400",  message:"EMAIL REQUIRED AND NOT EMPTY"});
+          }
+          else if(user.PASSWORD== ""){
+        return res.status(400).json({status : "bad request",code: "400",  message:"PASSWORD REQUIRED AND NOT EMPTY"});
+        }
+      
+        
+        const errors = await validate(user);
+        if(errors.length > 0 )  {
+            res.status(400).json(errors);
+            return;
+        }
+        
 
 
+//Hash the password, to securely store on DB
 
+
+//Try to save. If fails, the username is already in use
+
+//user.hashPassword();
 const userRepository = getRepository(user_table);
-try{
+
+try{ 
+    
    await userRepository.save(user);
 } catch (e) {
-       res.status(409).json('username already in use');
+       res.status(409).json({status : "conflict",code: "409",message : `user ${EMAIL} alaready  in use`});
        return;
    }
 
    //If all ok, send 201 response
-   res.status(201).json('User created');
+   res.status(201).json({ status : "true",code: "201", message : `user Created successfully`});
 };
 
 

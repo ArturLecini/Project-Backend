@@ -81,15 +81,16 @@ export class user_table{
 
  
 
-/*
-  hashPassword() { this.PASSWORD = bcrypt.hashSync(this.PASSWORD, 8);
+
+  hashPassword(): void { 
+      this.PASSWORD = bcrypt.hashSync(this.PASSWORD, 10);
 }
   checkPassword(unencryptedPassword: string) {
     return bcrypt.compareSync(unencryptedPassword, this.PASSWORD);
   }
 
 
-*/
+
 
 
 

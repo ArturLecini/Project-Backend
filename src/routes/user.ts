@@ -15,7 +15,7 @@ router.post('/',UserController.newUser);
 
 //edit user
 router.patch('/:ID', UserController.editUser);
-
+router.put('/:ID', UserController.editUser);
 
 //delete
 router.delete('/:ID',UserController.deleteUser);
