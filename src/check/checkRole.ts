@@ -1,16 +1,14 @@
 import { Request, Response, NextFunction } from "express";
 import { getRepository } from "typeorm";
-import { user_table } from "../entity/user_table/user_table";
-
-
+import { USER } from "../entity/USER";
 
 export const checkRole = (ROLE: Array<string>) => {
   return async (req: Request, res: Response, next: NextFunction) => {
    
     const{ID}= req.params;
     //Get user role from the database
-    const userRepository = getRepository(user_table);
-    let user: user_table;
+    const userRepository = getRepository(USER);
+    let user: USER;
     try {
       user = await userRepository.findOneOrFail(ID);
     } catch (ID) {

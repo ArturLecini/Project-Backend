@@ -1,7 +1,7 @@
 import { Timestamp } from "typeorm";
 
 
-export class user_table{
+export class USER{
     ID: number;
     FIRSTNAME: string;
     LASTNAME: string;

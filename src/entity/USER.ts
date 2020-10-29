@@ -2,13 +2,13 @@
 export type WithPrecisionColumnType = "float"
 import {Entity, Column, PrimaryGeneratedColumn, PrimaryColumn , UpdateDateColumn} from "typeorm";
 import { Timestamp } from "typeorm";
-import{ IsEmpty, IsNotEmpty, MaxLength, MinLength }  from 'class-validator'
+import{ IsEmail, IsEmpty, IsNotEmpty, MaxLength, MinLength }  from 'class-validator'
 import * as bcrypt from "bcryptjs";
 
 
 @Entity()
 
-export class user_table{
+export class USER{
     @PrimaryGeneratedColumn()
      ID: number;
      
@@ -79,21 +79,16 @@ export class user_table{
   @UpdateDateColumn()
   UPDATED_AT: Date;
 
- 
+ bcrypt = require('bcryptjs') ;
 
 
   hashPassword(): void { 
-      this.PASSWORD = bcrypt.hashSync(this.PASSWORD, 10);
+      const salt = bcrypt.genSaltSync(10);
+      this.PASSWORD = bcrypt.hashSync(this.PASSWORD, salt);
 }
-  checkPassword(unencryptedPassword: string) {
-    return bcrypt.compareSync(unencryptedPassword, this.PASSWORD);
+  checkPassword(PASSWORD: string) {
+    return bcrypt.compareSync(PASSWORD, this.PASSWORD);
   }
-
-
-
-
-
-
 
 }
 

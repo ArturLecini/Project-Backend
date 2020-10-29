@@ -2,7 +2,7 @@ import {Entity} from "typeorm";
 import { Timestamp } from "typeorm";
 @Entity()
 
-export class user_table{
+export class USER{
     ID: number;
     FIRSTNAME: string;
     LASTNAME: string;

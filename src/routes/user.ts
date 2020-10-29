@@ -1,4 +1,5 @@
 import {Router} from 'express';
+
 import {UserController} from '../controller/UserController';
 const router = Router();
 
@@ -19,6 +20,7 @@ router.put('/:ID', UserController.editUser);
 
 //delete
 router.delete('/:ID',UserController.deleteUser);
+
 
 
 

@@ -1,7 +1,8 @@
 import {getRepository } from 'typeorm';
 import {Request ,Response} from 'express';
-import {user_table} from '../entity/user_table/user_table';
-
+import {USER} from '../entity/USER';
+import * as jwt from "jsonwebtoken";
+import config from '../check/config';
  class AuthController {
 
     static login = async (req: Request, res : Response)=>{
@@ -10,8 +11,8 @@ import {user_table} from '../entity/user_table/user_table';
             if(!(EMAIL && PASSWORD)){   
          return res.status(400).json({message:'passwrd & password are required!'});
       }
-        const userReposity = getRepository(user_table);
-        let user: user_table; 
+        const userReposity = getRepository(USER);
+        let user: USER; 
         try {
             user = await userReposity.findOneOrFail({where : {EMAIL}  });  
         }
@@ -23,8 +24,16 @@ import {user_table} from '../entity/user_table/user_table';
         }
         catch(e){
             return res.status(400).json({message: ' password incorect !'});
-        }
-         res.send(user);
-    };
+        }  //Sing JWT, valid for 1 hour
+        const token = jwt.sign(
+          { EMAIL: user.EMAIL, PASSWORD: user.PASSWORD },
+          config.jwtSecret,
+          { expiresIn: "1h" }
+        );
+        //Send the jwt in the response
+        res.send(token);
+      };
+        
+    
 }
 export default AuthController;

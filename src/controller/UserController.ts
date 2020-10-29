@@ -1,5 +1,5 @@
 import {IsDataURI, validate} from 'class-validator';
-import {user_table} from '../entity/user_table/user_table'
+import {USER} from '../entity/USER'
 import { Request ,Response} from 'express';
 import {getRepository} from 'typeorm';
 
@@ -8,7 +8,7 @@ import {getRepository} from 'typeorm';
 export class UserController {
 
     static getAll = async ( req: Request, res: Response)=>{
-        const userRepository = getRepository(user_table);
+        const userRepository = getRepository(USER);
         const user = await userRepository.find();
 
         if(user.length > 0){
@@ -22,7 +22,7 @@ export class UserController {
     
     static getById= async (req: Request , res: Response)=>{
         const {ID}= req.params;
-    const userRepository =getRepository(user_table);
+    const userRepository =getRepository(USER);
 
 try
        {
@@ -39,7 +39,7 @@ try
 let user ;
 const{ID}= req.params;
 const {FIRSTNAME, ROLE ,LASTNAME ,EMAIL,PASSWORD ,PHONE,ADRESS,UPDATED_AT}= req.body;
-const userRepository =getRepository(user_table);
+const userRepository =getRepository(USER);
 
 //try get user
 try{
@@ -84,7 +84,7 @@ res.status(201).json({ status : "true",code: "201", message : `user with id ${ID
      let user;
     const {ID} = req.params;
      const {ROLE} = req.body;
-     const userRepository = getRepository(user_table);
+     const userRepository = getRepository(USER);
     
       try{
          user = await userRepository.findOneOrFail(ID); 
@@ -108,7 +108,7 @@ res.status(201).json({ status : "true",code: "201", message : `user with id ${ID
 
  static newUser = async(req: Request ,res: Response)=>{
     const {   FIRSTNAME, LASTNAME, EMAIL , PASSWORD , PHONE , ADRESS,ID,ROLE,CREATED} = req.body;
-    const user= new user_table();
+    const user= new USER();
     user.FIRSTNAME= FIRSTNAME;
     user.LASTNAME= LASTNAME;
     user.EMAIL=EMAIL;
@@ -137,15 +137,13 @@ res.status(201).json({ status : "true",code: "201", message : `user with id ${ID
             return;
         }
         
-
-
 //Hash the password, to securely store on DB
 
 
 //Try to save. If fails, the username is already in use
 
-//user.hashPassword();
-const userRepository = getRepository(user_table);
+ //user.hashPassword();
+const userRepository = getRepository(USER);
 
 try{ 
     
