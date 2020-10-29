@@ -4,8 +4,9 @@ import {createConnection} from "typeorm";
 import * as express from "express";
 import * as cors from "cors";
 import * as helmet from"helmet";
-import router from './routes/';
+
 import * as bodyParser from "body-parser";
+import routes from "./routes/";
 const PORT = process.env.PORT || 3000;
 
 createConnection()
@@ -18,10 +19,10 @@ createConnection()
     app.use(cors());
     app.use(helmet());
     app.use(express.json());
-   //app.use(bodyParser());
+   
      //routes
-     app.use('/',router);
-    
+     app.use('/',routes);
+  
     //start exxpres server
     app.listen(PORT,() => console.log(`server online runing at ${PORT}`));
 })

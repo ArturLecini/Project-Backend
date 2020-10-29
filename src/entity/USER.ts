@@ -37,9 +37,9 @@ export class USER{
 
 
 @MinLength(8)
-@MaxLength(12)
+@MaxLength(220)
     @IsNotEmpty()
-    @Column({length: 12 ,
+    @Column({length: 220 ,
         nullable: false})
     PASSWORD: string;
  
@@ -83,7 +83,7 @@ export class USER{
 
 
   hashPassword(): void { 
-      const salt = bcrypt.genSaltSync(10);
+      const salt = bcrypt.genSaltSync(5);
       this.PASSWORD = bcrypt.hashSync(this.PASSWORD, salt);
 }
   checkPassword(PASSWORD: string) {
@@ -95,13 +95,3 @@ export class USER{
 
 
 
-
-@Entity()
-export class user_button{
-    @PrimaryColumn()
-    ID: number;
-
-    @Column({ 
-        nullable: false,
-        })
-    ACTIVATE: boolean;}

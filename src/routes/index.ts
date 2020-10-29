@@ -6,6 +6,6 @@ import router from './auth';
 const routes =Router();
 routes.use('/auth' ,auth);
 routes.use('/users',user);//, checkRole(["ADMIN"])
-router.use('/change',auth);
-
+routes.use('/change',auth);
+routes.use('/button',user);
 export default routes;

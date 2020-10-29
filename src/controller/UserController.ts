@@ -1,4 +1,4 @@
-import {IsDataURI, validate} from 'class-validator';
+import { validate} from 'class-validator';
 import {USER} from '../entity/USER'
 import { Request ,Response} from 'express';
 import {getRepository} from 'typeorm';
@@ -25,7 +25,7 @@ export class UserController {
     const userRepository =getRepository(USER);
 
 try
-       {
+       { 
    const user = await  userRepository.findOneOrFail(ID);
     res.status(226).send(user);
    } 
@@ -69,6 +69,9 @@ else if(user.EMAIL== ""){
     if(errors.length > 0 )  {
         res.status(400).json(errors);
         return;
+    }
+    if (user.ID == 1){
+        return res.status(400).json({status : "bad request",code: "400",  message:`User with id ${ID} is CEO ADMIN `});
     }
 //try to save user
 try{
@@ -139,15 +142,12 @@ res.status(201).json({ status : "true",code: "201", message : `user with id ${ID
         
 //Hash the password, to securely store on DB
 
-
-//Try to save. If fails, the username is already in use
-
- //user.hashPassword();
+user.hashPassword();
 const userRepository = getRepository(USER);
 
 try{ 
     
-   await userRepository.save(user);
+    await userRepository.save(user);
 } catch (e) {
        res.status(409).json({status : "conflict",code: "409",message : `user ${EMAIL} alaready  in use`});
        return;
@@ -156,7 +156,6 @@ try{
    //If all ok, send 201 response
    res.status(201).json({ status : "true",code: "201", message : `user Created successfully`});
 };
-
 
 
 }

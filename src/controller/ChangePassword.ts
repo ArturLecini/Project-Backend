@@ -6,35 +6,31 @@ import { USER } from "../entity/USER";
 
 export class ChangePassword{
   static chPassword = async (req: Request, res: Response) => {
-    //Get ID from JWT
-    const PASSWORD= res.locals.jwtPayload.user.PASSWORD;
-
-    //Get parameters from the body
-    const {ID} = req.params
-    const { oldPassword, newPassword } = req.body;
-    if (!(oldPassword && newPassword)) {
-      res.status(400).send();
+    let user ;
+    const{ID ,EMAIL}= req.params;
+    const { PASSWORD }= req.body;
+    const userRepository =getRepository(USER);
+    //try get user
+    try{
+        user= await userRepository.findOneOrFail(ID);
+        user= await userRepository.findOneOrFail(EMAIL);
+        user.EMAIL = EMAIL;
+        user.PASSWORD= PASSWORD;
     }
-    //Get user from the database
-    const userRepository = getRepository(USER);
-    let user: USER;
-    try {
-      user = await userRepository.findOneOrFail(ID);
-    } catch (ID) {
-      res.status(401).send();
+    catch(e){
+        return res.status(404).json({ status : "not found",code: "404", message: `user ${ID} not found`});
     }
-    //Validate de model (password lenght)
-    user.PASSWORD = newPassword;
-    const errors = await validate(user);
-    if (errors.length > 0) {
-      res.status(400).send(errors);
-      return;
+    
+        
+       
+    //try to save user
+    try{
+     await userRepository.save(user);
     }
-    //Hash the new password and save
-    //user.hashPassword();
-    userRepository.save(user);
-
-    res.status(204).send();
-  };
-}
+    catch(e){
+        res.status(409).json({status : "conflict",code: "409",message : `user  alaready  in use`});
+    }
+    res.status(201).json({ status : "true",code: "201", message : `user with id ${ID} update sussessfull password`});
+     };
+    }
 export default ChangePassword;
