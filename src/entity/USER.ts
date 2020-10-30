@@ -12,19 +12,13 @@ export class USER{
     @PrimaryGeneratedColumn()
      ID: number;
      
-
     @Column({length: 20,
         nullable: true})
     FIRSTNAME: string;
 
-    
-
     @Column({length: 20,
         nullable: true })
-   
         LASTNAME: string;
-
-
 
   @MinLength(6)
 @MaxLength(30)
@@ -34,8 +28,6 @@ export class USER{
         unique: true })
     EMAIL: string;
 
-
-
 @MinLength(8)
 @MaxLength(220)
     @IsNotEmpty()
@@ -43,23 +35,17 @@ export class USER{
         nullable: false})
     PASSWORD: string;
  
-
-
-   
     @Column({length: 70,
         nullable: true})
     ADRESS: string
     nullable: true
 
   
-
     @Column({length: 15,
         nullable: true
     })
     PHONE: string;
 
-
-    
     @Column( {nullable: false, 
         length: 5,
         default: "user"})
@@ -82,9 +68,8 @@ export class USER{
  bcrypt = require('bcryptjs') ;
 
 
-  hashPassword(): void { 
-      const salt = bcrypt.genSaltSync(5);
-      this.PASSWORD = bcrypt.hashSync(this.PASSWORD, salt);
+  hashPassword(){   
+      this.PASSWORD = bcrypt.hashSync(this.PASSWORD, 5);
 }
   checkPassword(PASSWORD: string) {
     return bcrypt.compareSync(PASSWORD, this.PASSWORD);

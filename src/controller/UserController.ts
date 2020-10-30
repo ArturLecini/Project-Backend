@@ -7,7 +7,7 @@ import {getRepository} from 'typeorm';
 
 export class UserController {
 
-    static getAll = async ( req: Request, res: Response)=>{
+ static getAll = async ( req: Request, res: Response)=>{
         const userRepository = getRepository(USER);
         const user = await userRepository.find();
 
@@ -19,8 +19,7 @@ export class UserController {
         }
     };
    
-    
-    static getById= async (req: Request , res: Response)=>{
+static getById= async (req: Request , res: Response)=>{
         const {ID}= req.params;
     const userRepository =getRepository(USER);
 
@@ -56,20 +55,7 @@ try{
 catch(e){
     return res.status(404).json({ status : "not found",code: "404", message: `User ${ID} not found`});
 }
-if(user.EMAIL== "" && user.PASSWORD== "" ){
-    return res.status(400).json({status : "bad request",code: "400",  message:"EMAIL  AND PASSWORD REQUIRED AND NOT EMPTY"});
-      }
-else if(user.EMAIL== ""){
-    return res.status(400).json({status : "bad request",code: "400",  message:"EMAIL REQUIRED AND NOT EMPTY"});
-      }
-      else if(user.PASSWORD== ""){
-    return res.status(400).json({status : "bad request",code: "400",  message:"PASSWORD REQUIRED AND NOT EMPTY"});
-    }
-    const errors = await validate(user);
-    if(errors.length > 0 )  {
-        res.status(400).json(errors);
-        return;
-    }
+
     if (user.ID == 1){
         return res.status(400).json({status : "bad request",code: "400",  message:`User with id ${ID} is CEO ADMIN `});
     }
@@ -156,7 +142,6 @@ try{
    //If all ok, send 201 response
    res.status(201).json({ status : "true",code: "201", message : `user Created successfully`});
 };
-
 
 }
  export default UserController;

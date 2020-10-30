@@ -4,8 +4,8 @@ import ChangePassword from '../controller/ChangePassword';
 import { checkJwt } from "../check/checkJWT";
 const router = Router();
 
-router.post('/login', AuthController.login);
-router.patch('/:ID',ChangePassword.chPassword);
+router.post('/login',AuthController.login);
+router.patch('/change-password/:ID',ChangePassword.chPassword);//s
 
 
 

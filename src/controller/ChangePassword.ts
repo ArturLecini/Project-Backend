@@ -7,14 +7,13 @@ import { USER } from "../entity/USER";
 export class ChangePassword{
   static chPassword = async (req: Request, res: Response) => {
     let user ;
-    const{ID ,EMAIL}= req.params;
+    const{ID }= req.params;
     const { PASSWORD }= req.body;
     const userRepository =getRepository(USER);
     //try get user
     try{
         user= await userRepository.findOneOrFail(ID);
-        user= await userRepository.findOneOrFail(EMAIL);
-        user.EMAIL = EMAIL;
+     
         user.PASSWORD= PASSWORD;
     }
     catch(e){
@@ -22,7 +21,7 @@ export class ChangePassword{
     }
     
         
-       
+    user.hashPassword();
     //try to save user
     try{
      await userRepository.save(user);

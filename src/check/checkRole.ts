@@ -8,7 +8,7 @@ export const checkRole = (ROLE: Array<string>) => {
     const{ID}= req.params;
     //Get user role from the database
     const userRepository = getRepository(USER);
-    let user: USER;
+    let user: USER;//res.locals.jwtPayload.ID;
     try {
       user = await userRepository.findOneOrFail(ID);
     } catch (ID) {
