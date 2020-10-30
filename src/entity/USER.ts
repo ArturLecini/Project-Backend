@@ -9,7 +9,7 @@ import * as bcrypt from "bcryptjs";
 @Entity()
 
 export class USER{
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn({zerofill:true}) 
      ID: number;
      
     @Column({length: 20,

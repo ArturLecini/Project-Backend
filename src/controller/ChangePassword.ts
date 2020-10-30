@@ -7,12 +7,12 @@ import { USER } from "../entity/USER";
 export class ChangePassword{
   static chPassword = async (req: Request, res: Response) => {
     let user ;
-    const{ID }= req.params;
+    const{ID,EMAIL}= req.params;
     const { PASSWORD }= req.body;
     const userRepository =getRepository(USER);
     //try get user
     try{
-        user= await userRepository.findOneOrFail(ID);
+        user= await userRepository.findOneOrFail(EMAIL);
      
         user.PASSWORD= PASSWORD;
     }
