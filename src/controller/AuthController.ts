@@ -22,16 +22,13 @@ import { validate } from "class-validator";
             return res.status(400).json({message: 'Username  incorect !'});
         } 
 
-         //Check if encrypted password match
-    if (!user.checkPassword(PASSWORD)) {
-      res.status(401).send().json({status : "unauthorized",code: "401",  message:`token is not valid, `});;
-      return;
-    }
+     //Check if encrypted password match
+   
         //Sing JWT, valid for 1 hour
         const token = jwt.sign(
           { EMAIL: user.EMAIL, PASSWORD: user.PASSWORD },
           config.jwtSecret,
-          { expiresIn: "1h" }
+          { expiresIn: "2h" }
         );
         //Send the jwt in the response
         res.send(token);

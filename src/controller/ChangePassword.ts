@@ -21,9 +21,9 @@ export class ChangePassword{
     }
     
         
-    user.hashPassword();
+    
     //try to save user
-    try{
+    try{user.hashPassword();
      await userRepository.save(user);
     }
     catch(e){

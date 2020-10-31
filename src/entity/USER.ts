@@ -5,7 +5,6 @@ import { Timestamp } from "typeorm";
 import{ IsEmail, IsEmpty, IsNotEmpty, MaxLength, MinLength }  from 'class-validator'
 import * as bcrypt from "bcryptjs";
 
-
 @Entity()
 
 export class USER{
@@ -38,7 +37,7 @@ export class USER{
     @Column({length: 70,
         nullable: true})
     ADRESS: string
-    nullable: true
+    
 
   
     @Column({length: 15,
@@ -46,6 +45,8 @@ export class USER{
     })
     PHONE: string;
 
+
+    @IsNotEmpty()
     @Column( {nullable: false, 
         length: 5,
         default: "user"})

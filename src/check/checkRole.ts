@@ -4,8 +4,8 @@ import { USER } from "../entity/USER";
 
 export const checkRole = (ROLE: Array<string>) => {
   return async (req: Request, res: Response, next: NextFunction) => {
-   
-    const{ID}= req.params;
+   const {ID}= res.locals.jwtPayload;
+   // const{ID}= req.params;
     //Get user role from the database
     const userRepository = getRepository(USER);
     let user: USER;//res.locals.jwtPayload.ID;

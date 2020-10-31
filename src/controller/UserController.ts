@@ -61,6 +61,8 @@ catch(e){
     }
 //try to save user
 try{
+    user.hashPassword();
+    
  await userRepository.save(user);
 }
 catch(e){

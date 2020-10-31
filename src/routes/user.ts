@@ -10,17 +10,18 @@ const router = Router();
 
 
 //getb all users
-router.get('/', UserController.getAll);//checkRole(["ADMIN"]),
+router.get('/',[checkJwt] ,UserController.getAll);//checkRole(["ADMIN"]),
 
 //get one user only nr
-router.get('/:ID([0-9]+)',UserController.getById);//[checkJwt, checkRole(["ADMIN"])],
+router.get('/:ID([0-9]+)',[checkJwt, checkRole(["ADMIN"])]
+,UserController.getById);//[checkJwt, checkRole(["ADMIN"])],
 
 //create new user
-router.post('/add',UserController.newUser);
+router.post('/add',[checkJwt] ,UserController.newUser);//
 
 //edit user
-router.patch('/edit/:ID([0-9]+)', UserController.editUser);//[checkJwt, checkRole(["ADMIN"])],
-router.put('/:ID', UserController.editUser);
+router.patch('/edit/:ID([0-9]+)',[checkJwt],  UserController.editUser);// [checkJwt, checkRole(["ADMIN"])],
+router.put('/edit/:ID', UserController.editUser);
 
 //delete
 router.delete('/delete/:ID',UserController.deleteUser);//[checkJwt, checkRole(["ADMIN"])],

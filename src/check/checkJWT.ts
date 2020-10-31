@@ -12,16 +12,16 @@ export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
     jwtPayload = <any>jwt.verify(token, config.jwtSecret);
     res.locals.jwtPayload = jwtPayload;
   } 
-  catch (error) {
+  catch (e) {
     //If token is not valid, respond with 401 (unauthorized)
-    res.status(401).send().json({status : "unauthorized",code: "401",  message:`token is not valid, `});;
+    res.status(401).send().json({ status : "unauthorized",code: "401",  message:`token is not valid, `});
     return;
   }
   //The token is valid for 1 hour
   //We want to send a new token on every request
   const { EMAIL, PASSWORD ,ID} = jwtPayload;
   const newToken = jwt.sign({  EMAIL, PASSWORD,ID}, config.jwtSecret, {
-    expiresIn: "1h"
+    expiresIn: "2h"
   });
   res.setHeader("token", newToken);
   next();
