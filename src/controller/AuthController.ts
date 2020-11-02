@@ -23,15 +23,19 @@ import { validate } from "class-validator";
         } 
 
      //Check if encrypted password match
-   
-        //Sing JWT, valid for 1 hour
+    if (!user.checkPassword(PASSWORD)) {
+      res.status(401).send().json({status : "unauthorized",code: "401",  message:`token is not valid, `});;
+      return;
+    }
+        //Sing JWT, valid for 2 hour
         const token = jwt.sign(
           { EMAIL: user.EMAIL, PASSWORD: user.PASSWORD },
           config.jwtSecret,
           { expiresIn: "2h" }
         );
         //Send the jwt in the response
-        res.send(token);
+        res.status(200).send(user).json({   idToken: token, 
+           code: "200", token: '', message:`token is valid, `});;
       };
         
     

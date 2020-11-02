@@ -1,4 +1,3 @@
-
 export type WithPrecisionColumnType = "float"
 import {Entity, Column, PrimaryGeneratedColumn, PrimaryColumn , UpdateDateColumn} from "typeorm";
 import { Timestamp } from "typeorm";
@@ -8,6 +7,13 @@ import * as bcrypt from "bcryptjs";
 @Entity()
 
 export class USER{
+      @MinLength(6)
+@MaxLength(30)
+    @IsNotEmpty()
+    @Column({length: 30,
+        nullable: false,
+        unique: true })
+    EMAIL: string;
     @PrimaryGeneratedColumn({zerofill:true}) 
      ID: number;
      
@@ -19,13 +25,7 @@ export class USER{
         nullable: true })
         LASTNAME: string;
 
-  @MinLength(6)
-@MaxLength(30)
-    @IsNotEmpty()
-    @Column({length: 30,
-        nullable: false,
-        unique: true })
-    EMAIL: string;
+
 
 @MinLength(8)
 @MaxLength(220)
@@ -46,7 +46,7 @@ export class USER{
     PHONE: string;
 
 
-    @IsNotEmpty()
+    
     @Column( {nullable: false, 
         length: 5,
         default: "user"})

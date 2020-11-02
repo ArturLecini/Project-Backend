@@ -4,7 +4,7 @@ import config from "./config";
 
 export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
  
-  const token = <string>req.headers["auth"];
+  const token = <string>req.headers["token"];
   let jwtPayload;
   
   //Try to validate the token and get data
@@ -23,6 +23,7 @@ export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
   const newToken = jwt.sign({  EMAIL, PASSWORD,ID}, config.jwtSecret, {
     expiresIn: "2h"
   });
+  res.cookie("SESSIONID", jwtPayload, {httpOnly:true, secure:true});
   res.setHeader("token", newToken);
   next();
 };

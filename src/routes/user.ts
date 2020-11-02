@@ -4,23 +4,22 @@ import  {ButtonController}  from '../controller/buttonContrroler';
 import {UserController} from '../controller/UserController';
 import { checkJwt } from "../check/checkJWT";
 import { checkRole } from "../check/checkRole";
-
+import {USER} from "../entity/USER"
 
 const router = Router();
 
 
 //getb all users
-router.get('/',[checkJwt] ,UserController.getAll);//checkRole(["ADMIN"]),
+router.get('/' ,UserController.getAll);//checkRole(["ADMIN"]),,[checkJwt][checkJwt, checkRole(["ADMIN"])]
 
 //get one user only nr
-router.get('/:ID([0-9]+)',[checkJwt, checkRole(["ADMIN"])]
-,UserController.getById);//[checkJwt, checkRole(["ADMIN"])],
+router.get('/:ID([0-9]+)',UserController.getById);//[checkJwt, checkRole(["ADMIN"])],
 
 //create new user
-router.post('/add',[checkJwt] ,UserController.newUser);//
+router.post('/add' ,UserController.newUser);//,[checkJwt]
 
 //edit user
-router.patch('/edit/:ID([0-9]+)',[checkJwt],  UserController.editUser);// [checkJwt, checkRole(["ADMIN"])],
+router.patch(`/edit/:EMAIL([0-9]+)` , UserController.editUser);// ,[checkJwt],[checkJwt, checkRole(["ADMIN"])],
 router.put('/edit/:ID', UserController.editUser);
 
 //delete

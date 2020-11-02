@@ -36,8 +36,8 @@ try
  
  static editUser = async (req: Request, res: Response)=>{
 let user ;
-const{ID}= req.params;
-const {FIRSTNAME, ROLE ,LASTNAME ,EMAIL,PASSWORD ,PHONE,ADRESS,UPDATED_AT}= req.body;
+const{ID }= req.params;
+const {FIRSTNAME, ROLE,EMAIL ,LASTNAME ,PASSWORD ,PHONE,ADRESS,UPDATED_AT}= req.body;
 const userRepository =getRepository(USER);
 
 //try get user
@@ -62,7 +62,7 @@ catch(e){
 //try to save user
 try{
     user.hashPassword();
-    
+
  await userRepository.save(user);
 }
 catch(e){
@@ -130,11 +130,11 @@ res.status(201).json({ status : "true",code: "201", message : `user with id ${ID
         
 //Hash the password, to securely store on DB
 
-user.hashPassword();
+
 const userRepository = getRepository(USER);
 
 try{ 
-    
+    user.hashPassword();
     await userRepository.save(user);
 } catch (e) {
        res.status(409).json({status : "conflict",code: "409",message : `user ${EMAIL} alaready  in use`});

@@ -5,7 +5,7 @@ import { checkJwt } from "../check/checkJWT";
 const router = Router();
 
 router.post('/login',AuthController.login);//,[checkJwt]
-router.patch('/change-password/:EMAIL',ChangePassword.chPassword);//s
+router.patch('/change-password/:ID',ChangePassword.chPassword);//s
 
 
 
