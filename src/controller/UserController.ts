@@ -43,14 +43,15 @@ const userRepository =getRepository(USER);
 //try get user
 try{
     user= await userRepository.findOneOrFail(ID);
-    user.LASTTNAME= LASTNAME;
+    user.LASTNAME= LASTNAME;
     user.EMAIL= EMAIL;
     user.PASSWORD= PASSWORD;
     user.FIRSTNAME= FIRSTNAME;
     user.ADRESS= ADRESS;
-    user.FIRSTNAME= FIRSTNAME;
+   
     user.ROLE= ROLE;
     user.PHONE= PHONE;
+    user.UPDATED_AT= UPDATED_AT;
 }
 catch(e){
     return res.status(404).json({ status : "not found",code: "404", message: `User ${ID} not found`});
@@ -61,7 +62,7 @@ catch(e){
     }
 //try to save user
 try{
-    user.hashPassword();
+   
 
  await userRepository.save(user);
 }
@@ -94,7 +95,7 @@ res.status(201).json({ status : "true",code: "201", message : `user with id ${ID
            return res.status(409).json({message : 'user alaready  in use'});
        }
      //remove user 
-        res.status(200).json({  status : "deleted",code: "200",message:` user ${ID} deleted`});
+        res.status(200).json({  status : "deleted",code: "200",message:` user deleted`});
  };
 
  static newUser = async(req: Request ,res: Response)=>{

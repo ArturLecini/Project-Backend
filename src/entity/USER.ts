@@ -14,7 +14,7 @@ export class USER{
         nullable: false,
         unique: true })
     EMAIL: string;
-    @PrimaryGeneratedColumn({zerofill:true}) 
+    @PrimaryGeneratedColumn() 
      ID: number;
      
     @Column({length: 20,

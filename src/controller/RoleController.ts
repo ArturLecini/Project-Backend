@@ -45,7 +45,7 @@ static getRole = async(req: Request ,res: Response)=>{
 
         const userRepository = getRepository(USER);
         
-        const user = await userRepository.find({});
+        const user = await userRepository.find({ID});
 
         if(user.length > 0){
          return   res.status(226).send(user);

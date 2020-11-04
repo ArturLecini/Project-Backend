@@ -8,7 +8,7 @@ import { validate } from "class-validator";
  class AuthController {
 
     static login = async (req: Request, res : Response)=>{
-       const{ EMAIL , PASSWORD } = req.body;
+       const{ EMAIL ,ROLE, PASSWORD } = req.body;
       
             if(!(EMAIL && PASSWORD)){   
          return res.status(400).json({message:'passwrd & password are required!'});
@@ -24,18 +24,18 @@ import { validate } from "class-validator";
 
      //Check if encrypted password match
     if (!user.checkPassword(PASSWORD)) {
-      res.status(401).send().json({status : "unauthorized",code: "401",  message:`token is not valid, `});;
+      res.status(401).send({EMAIL,success : false, status : "unauthorized ",code: "401",  message:`Password is not valid, `});;
       return;
     }
         //Sing JWT, valid for 2 hour
         const token = jwt.sign(
-          { EMAIL: user.EMAIL, PASSWORD: user.PASSWORD },
+          { EMAIL: user.EMAIL, PASSWORD: user.PASSWORD},
           config.jwtSecret,
           { expiresIn: "2h" }
         );
         //Send the jwt in the response
-        res.status(200).send(user).json({   idToken: token, 
-           code: "200", token: '', message:`token is valid, `});;
+        res.status(200).send({   data: {token ,user} ,
+        EMAIL, ROLE: user.ROLE ,code: "200",  message:`login succesfully, ` , success : true});;
       };
         
     

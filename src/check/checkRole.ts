@@ -4,7 +4,7 @@ import { USER } from "../entity/USER";
 
 export const checkRole = (ROLE: Array<string>) => {
   return async (req: Request, res: Response, next: NextFunction) => {
-   const {ID}= res.locals.jwtPayload;
+   const {ID}= req.body;
    // const{ID}= req.params;
     //Get user role from the database
     const userRepository = getRepository(USER);
@@ -16,8 +16,8 @@ export const checkRole = (ROLE: Array<string>) => {
     }
 
     //Check if array of authorized roles includes the user's role
-    if (ROLE.indexOf(user.ROLE) > -1) next();
-    else res.status(401).json({message: `User ${ID} not have privilegies `});
+    if (ROLE.indexOf(user.ROLE) > -1) res.status(401).json({message: `User ${ID} not have privilegies `});
+    else next();
   };
 };
 
