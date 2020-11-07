@@ -53,7 +53,6 @@ export class USER{
     ROLE:string;
 
 
-    
     @Column( { type:"timestamp",
     precision: 1,
     nullable: false,
@@ -66,9 +65,10 @@ export class USER{
   @UpdateDateColumn()
   UPDATED_AT: Date;
 
+
+
+
  bcrypt = require('bcryptjs') ;
-
-
   hashPassword(){   
       this.PASSWORD = bcrypt.hashSync(this.PASSWORD, 5);
 }

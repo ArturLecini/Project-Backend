@@ -34,7 +34,7 @@ import { validate } from "class-validator";
           { expiresIn: "2h" }
         );
         //Send the jwt in the response
-        res.status(200).send({   data: {token ,user} ,
+        res.status(200).send({ data: {token } ,
         EMAIL, ROLE: user.ROLE ,code: "200",  message:`login succesfully, ` , success : true});;
       };
         

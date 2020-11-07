@@ -5,8 +5,8 @@ import { checkJwt } from "../check/checkJWT";
 import { checkRole} from "../check/checkRole";
 const router = Router();
 
-router.post('/login' ,checkRole(["admin"]),AuthController.login);//,[checkJwt]
-router.patch('/change-password/:ID',ChangePassword.chPassword);//s
+router.post('/login' ,AuthController.login);//,[checkJwt, ],[checkJwt]
+router.patch('/change-password/:ID',ChangePassword.chPassword);//s,checkRole(["admin"])
 
 
 

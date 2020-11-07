@@ -17,7 +17,7 @@ export class ChangePassword{
         user.PASSWORD= PASSWORD;
     }
     catch(e){
-        return res.status(404).json({ status : "not found",code: "404", message: `user ${EMAIL} not found`});
+        return res.status(404).json({ status : "not found",code: "404", message: `user ${ID} not found`});
     }
    
    if(user.EMAIL!== EMAIL){

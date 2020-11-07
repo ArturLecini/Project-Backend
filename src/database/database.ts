@@ -11,6 +11,7 @@ export class USER{
     PHONE: string;
     ROLE:boolean;
     CREATED :Timestamp;
+    UPDATED_AT:Date;
 }
 export class user_button{
     ACTIVATE: boolean;
