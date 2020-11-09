@@ -34,10 +34,56 @@ import { validate } from "class-validator";
           { expiresIn: "2h" }
         );
         //Send the jwt in the response
-        res.status(200).send({ data: {token } ,
+        res.status(200).send({ token: `${token}`  ,
         EMAIL, ROLE: user.ROLE ,code: "200",  message:`login succesfully, ` , success : true});;
       };
+      static signup = async(req: Request ,res: Response)=>{
+        const {   FIRSTNAME, LASTNAME, EMAIL , PASSWORD , PHONE , ADRESS,ID,ROLE,CREATED} = req.body;
+        const user= new USER();
+        user.FIRSTNAME= FIRSTNAME;
+        user.LASTNAME= LASTNAME;
+        user.EMAIL=EMAIL;
+        user.PASSWORD= PASSWORD;
+        user.PHONE =PHONE;
+        user.ADRESS= ADRESS;
+        user.ID = ID;
+        user.ROLE = ROLE;
+        user.CREATED= CREATED;
+        //validate
         
+        if(user.EMAIL== "" && user.PASSWORD== "" ){
+            return res.status(400).json({status : "bad request",code: "400",  message:"EMAIL  AND PASSWORD REQUIRED AND NOT EMPTY"});
+              }
+        else if(user.EMAIL== ""){
+            return res.status(400).json({status : "bad request",code: "400",  message:"EMAIL REQUIRED AND NOT EMPTY"});
+              }
+              else if(user.PASSWORD== ""){
+            return res.status(400).json({status : "bad request",code: "400",  message:"PASSWORD REQUIRED AND NOT EMPTY"});
+            }
+          
+            
+            const errors = await validate(user);
+            if(errors.length > 0 )  {
+                res.status(400).json(errors);
+                return;
+            }
+            
+    //Hash the password, to securely store on DB
+    
+    
+    const userRepository = getRepository(USER);
+    
+    try{ 
+        user.hashPassword();
+        await userRepository.save(user);
+    } catch (e) {
+           res.status(409).json({status : "conflict",code: "409",message : `user ${EMAIL} alaready  in use`});
+           return;
+       }
+    
+       //If all ok, send 201 response
+       res.status(201).json({ status : "true",code: "201", message : `user Created successfully`});
+    };  
     
 }
 export default AuthController;

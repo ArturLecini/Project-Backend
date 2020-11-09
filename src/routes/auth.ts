@@ -5,10 +5,10 @@ import { checkJwt } from "../check/checkJWT";
 import { checkRole} from "../check/checkRole";
 const router = Router();
 
-router.post('/login' ,AuthController.login);//,[checkJwt, ],[checkJwt]
+router.post('/login' ,AuthController.login);
 router.patch('/change-password/:ID',ChangePassword.chPassword);//s,checkRole(["admin"])
-
-
+router.post('/signup' ,AuthController.signup);
+router.put('/edit/:ID', ChangePassword.edit);
 
 
 export default router;
