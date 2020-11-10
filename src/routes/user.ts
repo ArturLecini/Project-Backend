@@ -24,7 +24,7 @@ router.patch(`/edit/:ID([0-9]+)` ,[checkJwt,checkRole(["admin"])], UserControlle
 
 
 //delete
-router.delete('/delete/:ID',UserController.deleteUser);//[checkJwt, ],
+router.delete('/delete/:ID',UserController.deleteUser);
 
 
 export default router;

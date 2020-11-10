@@ -6,7 +6,7 @@ import { checkRole} from "../check/checkRole";
 const router = Router();
 
 router.post('/login' ,AuthController.login);
-router.patch('/change-password/:ID',ChangePassword.chPassword);//s,checkRole(["admin"])
+router.patch('/change-password/:ID',ChangePassword.chPassword);
 router.post('/signup' ,AuthController.signup);
 router.put('/edit/:ID', ChangePassword.edit);
 
